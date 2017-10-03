@@ -55,6 +55,8 @@ freeline/
 freeline_project_description.json
 
 Лекции/
+Литература/
+Примеры/
 *.pdf
 *.doc
 *.docx
