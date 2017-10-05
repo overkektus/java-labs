@@ -49,4 +49,6 @@ public abstract class Person {
         this.year = year;
     }
 
+    public Person() {}
+
 }
