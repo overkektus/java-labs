@@ -55,8 +55,9 @@ freeline/
 freeline_project_description.json
 
 Лекции/
-Литература/
 Примеры/
+Литература/
 *.pdf
 *.doc
 *.docx
+lab3-4/gson-2.2.2.jar
