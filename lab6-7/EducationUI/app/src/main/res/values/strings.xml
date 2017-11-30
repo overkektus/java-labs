@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name">EducationUI</string>
+    <string name="next">Вперед</string>
+    <string name="back">Назад</string>
+    <string name="student">Student</string>
+    <string name="listener">Listener</string>
+    <string name="btnAddStudent">Добавить студента</string>
+    <string name="btnLoadFromFile">Вывести из файла</string>
+    <string name="btnPickDate">Pick date</string>
+    <string name="tvChooseDate">Choose Date</string>
+    <string name="tvAddress">Адрес:</string>
+    <string name="type">Тип:</string>
+    <string name="birthday">Дата рождения:</string>
+    <string name="last_name">Фамилия:</string>
+    <string name="first_name">Имя:</string>
+    <string name="middle_name">Отчество:</string>
+    <string name="btnSave">Записать в файл</string>
+</resources>

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="ped.bstu.by.educationui.Activities.AddNameActivity">
+
+    <GridLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:rowCount="4"
+        android:columnCount="2">
+
+        <TextView
+            android:layout_row="0"
+            android:layout_column="0"
+            style="@style/tvStyle"
+            android:text="@string/first_name" />
+
+        <EditText
+            android:layout_row="0"
+            android:layout_column="1"
+            android:id="@+id/editTextFirstName"
+            style="@style/editTextStyle" />
+
+        <TextView
+            android:layout_row="1"
+            android:layout_column="0"
+            style="@style/tvStyle"
+            android:text="@string/middle_name" />
+
+        <EditText
+            android:layout_row="1"
+            android:layout_column="1"
+            android:id="@+id/editTextMiddleName"
+            style="@style/editTextStyle" />
+
+        <TextView
+            android:layout_row="2"
+            android:layout_column="0"
+            style="@style/tvStyle"
+            android:text="@string/last_name" />
+
+        <EditText
+            android:layout_row="2"
+            android:layout_column="1"
+            android:id="@+id/editTextLastName"
+            style="@style/editTextStyle" />
+
+        <LinearLayout
+            android:layout_row="3"
+            android:layout_column="0"
+            style="@style/linearForButton" >
+
+            <Button
+                android:id="@+id/btnAddNameNext"
+                style="@style/btnStyle"
+                android:text="@string/next" />
+
+        </LinearLayout>
+
+    </GridLayout>
+
+</android.support.constraint.ConstraintLayout>
