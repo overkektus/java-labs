@@ -1,3 +1,22 @@
 <resources>
     <string name="app_name">Calories</string>
+    <string-array name="activity_level">
+        <item>Низкая</item>
+        <item>Невысокая</item>
+        <item>Умеренная</item>
+        <item>Высокая</item>
+        <item>Экстремальная</item>
+    </string-array>
+    <string name="sex">Пол</string>
+    <string name="man">Мужской</string>
+    <string name="woman">Женский</string>
+    <string name="height">Рост</string>
+    <string name="height_units">см.</string>
+    <string name="weight">Вес</string>
+    <string name="weight_units">кг.</string>
+    <string name="age">Возраст</string>
+    <string name="age_units">лет</string>
+    <string name="activity">Уровень активности</string>
+    <string name="result">Результат:</string>
+    <string name="print">Рассчитать</string>
 </resources>
