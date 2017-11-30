@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">FireBase</string>
+    <string name="exit">Выход</string>
+    <string name="about">About app</string>
+    <string name="menu_add">Add student</string>
+    <string name="menu_addStudent">Add</string>
+    <string name="menu_editStudent">Edit</string>
+    <string name="menu_deleteStudent">Delete</string>
+    <string name="menu_signout">SignOut</string>
+    <string name="studentName">Student Name</string>
+</resources>
