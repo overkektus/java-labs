@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="ped.bstu.by.firebase.Activities.EditProfileActivity">
+
+    <GridLayout
+        android:rowCount="8"
+        android:columnCount="2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp" >
+
+        <RelativeLayout
+            android:layout_row="0"
+            android:layout_column="0"
+            android:layout_columnSpan="2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:layout_centerHorizontal="true"
+                android:id="@+id/studentImage"
+                android:layout_width="170dp"
+                android:layout_height="170dp"
+                android:layout_margin="20dp"
+                android:background="@drawable/icon_camera"
+                android:scaleType="centerCrop"/>
+
+            <ProgressBar
+                android:visibility="gone"
+                android:id="@+id/progressBar"
+                android:layout_centerVertical="true"
+                android:layout_centerHorizontal="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+        </RelativeLayout>
+
+        <TextView
+            android:layout_row="1"
+            android:layout_column="0"
+            android:id="@+id/tvFirstName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/FirstName" />
+
+        <EditText
+            android:layout_row="1"
+            android:layout_column="1"
+            android:id="@+id/etFirstName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="textPersonName"
+            tools:text="Дмитрий" />
+
+        <TextView
+            android:layout_row="2"
+            android:layout_column="0"
+            android:id="@+id/tvMiddleName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/MiddleName" />
+
+        <EditText
+            android:layout_row="2"
+            android:layout_column="1"
+            android:id="@+id/etMiddleName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="textPersonName"
+            tools:text="Дмитриевич" />
+
+        <TextView
+            android:layout_row="3"
+            android:layout_column="0"
+            android:id="@+id/tvLastName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/LastName"/>
+
+        <EditText
+            android:layout_row="3"
+            android:layout_column="1"
+            android:id="@+id/etLastName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="textPersonName"
+            tools:text="Шуманский"/>
+
+        <TextView
+            android:layout_row="4"
+            android:layout_column="0"
+            android:id="@+id/tvFaculty"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/Faculty" />
+
+        <Spinner
+            android:layout_row="4"
+            android:layout_column="1"
+            android:id="@+id/spinnerFaculty"
+            android:entries="@array/facultiesList"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:layout_row="5"
+            android:layout_column="0"
+            android:id="@+id/tvCourse"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/Course" />
+
+        <Spinner
+            android:layout_row="5"
+            android:layout_column="1"
+            android:id="@+id/spinnerCourse"
+            android:entries="@array/coursesList"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:layout_row="6"
+            android:layout_column="0"
+            android:id="@+id/tvGroup"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/Group" />
+
+        <EditText
+            android:layout_row="6"
+            android:layout_column="1"
+            android:id="@+id/etGroup"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="number|numberSigned"
+            android:maxLength="2"
+            tools:text="18"/>
+
+        <TextView
+            android:layout_row="7"
+            android:layout_column="0"
+            android:id="@+id/tvAddress"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/Address" />
+
+        <EditText
+            android:layout_row="7"
+            android:layout_column="1"
+            android:id="@+id/etAddress"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textMultiLine"
+            android:maxLines="2"
+            android:maxLength="100" />
+
+    </GridLayout>
+
+    <Button
+        android:id="@+id/btnSaveInfo"
+        style="@style/Widget.AppCompat.Button.Colored"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="@string/save" />
+
+</LinearLayout>
