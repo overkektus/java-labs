@@ -1,0 +1,30 @@
+
+esquid:CommentedOutCodeLine"<This block of commented-out lines of code should be removed.(ùßÁäøÿÿÿÿ
+Dsquid:S2093"*Change this "try" to a try-with-resources.(¡»¢üùÿÿÿÿ
+R
+squid:S106"9Replace this use of System.out or System.err by a logger.(îôÈìøÿÿÿÿ
+R
+squid:S106"9Replace this use of System.out or System.err by a logger.(Šž¥ëýÿÿÿÿ
+M
+squid:S106"9Replace this use of System.out or System.err by a logger.(Ý‡‚û
+msquid:ModifiersOrderCheck"EReorder the modifiers to comply with the Java Language Specification.(§ÄŸÿüÿÿÿÿ
+Y
+squid:S106"9Replace this use of System.out or System.err by a logger.(Ý¦ƒïÿÿÿÿÿ8»–šóö+
+R
+squid:S106"9Replace this use of System.out or System.err by a logger.(¢¢áÑüÿÿÿÿ
+dsquid:MaximumInheritanceDepth"=This class has 10 parents which is greater than 5 authorized.(²Ú±Ž
+M
+squid:S106"9Replace this use of System.out or System.err by a logger.(ôÃ¨ô
+]squid:S1075"ARefactor your code to get this URI from a customizable parameter.(š¸†â8»–šóö+
+M
+squid:S106"9Replace this use of System.out or System.err by a logger.(”³¥ü
+Y
+squid:S106"9Replace this use of System.out or System.err by a logger.(îôÈìøÿÿÿÿ8»–šóö+
+Y
+squid:S106"9Replace this use of System.out or System.err by a logger.(îôÈìøÿÿÿÿ8»–šóö+
+T
+squid:S106"9Replace this use of System.out or System.err by a logger.(¸…˜±8»–šóö+
+R
+squid:S106"9Replace this use of System.out or System.err by a logger.(¢¢áÑüÿÿÿÿ
+R
+squid:S106"9Replace this use of System.out or System.err by a logger.(îôÈìøÿÿÿÿ

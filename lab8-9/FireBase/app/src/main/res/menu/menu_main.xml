@@ -3,16 +3,10 @@
     xmlns:tools="http://schemas.android.com/tools" tools:context=".Activities.MainActivity">
 
     <item
-        android:id="@+id/add"
-        android:icon="@android:drawable/ic_menu_add"
+        android:id="@+id/menu_editInformation"
+        android:icon="@android:drawable/ic_menu_edit"
         app:showAsAction="always"
-        android:title="@string/menu_add" />
-
-    <item
-        android:id="@+id/reset"
-        android:icon="@android:drawable/ic_menu_revert"
-        app:showAsAction="always|withText"
-        android:title="Reset" />
+        android:title="@string/menu_editStudent" />
 
     <item
         android:id="@+id/about"

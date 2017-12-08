@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">FireBase</string>
+    <string name="SignUp">SignUp</string>
     <string name="exit">Выход</string>
     <string name="about">About app</string>
     <string name="menu_add">Add student</string>
@@ -8,4 +9,27 @@
     <string name="menu_deleteStudent">Delete</string>
     <string name="menu_signout">SignOut</string>
     <string name="studentName">Student Name</string>
+    <string name="userRegTitle">User Registration</string>
+    <string name="hintEnterEmail">Enter email</string>
+    <string name="hintEnterPassword">Enter password</string>
+    <string name="hintRepeatPassword">Repeat password</string>
+    <string name="alreadyReg">Already Registered? Signin Here</string>
+    <string name="FirstName">Имя:</string>
+    <string name="MiddleName">Отчество:</string>
+    <string name="LastName">Фамилия:</string>
+    <string name="Faculty">Факультет:</string>
+    <string name="Course">Курс:</string>
+    <string name="Group">Группа:</string>
+    <string name="Address">Адресс:</string>
+    <string name="save">Сохранить</string>
+    <string-array name="facultiesList">
+        <item>каждого студента по предмету</item>
+        <item>студента в целом</item>
+        <item>группы в целом</item>
+    </string-array>
+    <string-array name="coursesList">
+        <item>каждого студента по предмету</item>
+        <item>студента в целом</item>
+        <item>группы в целом</item>
+    </string-array>
 </resources>

@@ -1,0 +1,8 @@
+
+Isquid:S1656"/Remove or correct this useless self-assignment.(®Ñûÿÿÿÿ
+ssquid:S2293"YReplace the type specification in this constructor call with the diamond operator ("<>").(„àÇÃúÿÿÿÿ
+‡squid:S1319"rThe type of the "persons" object should be an interface such as "List" rather than the implementation "ArrayList".(’•Ó 
+‘squid:S1319"wThe type of the "studentsList" object should be an interface such as "List" rather than the implementation "ArrayList".(şüñüÿÿÿÿ
+csquid:S1226"IIntroduce a new variable instead of reusing the parameter "studentsList".(®Ñûÿÿÿÿ
+Zsquid:S1854"@Remove this useless assignment to local variable "studentsList".(®Ñûÿÿÿÿ
+hsquid:UselessImportCheck"FRemove this unused import 'java.util.concurrent.CopyOnWriteArrayList'.(ı¦ü
