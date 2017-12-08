@@ -12,31 +12,28 @@ public class Student implements Parcelable {
     private String profileImageUrl;
     private String Faculty, Course, Group;
     private String FirstName, MiddleName, LastName;
-    private String Birthday, Address, Type;
-
+    private String Address;
 
     public Student() {
         profileImageUrl = "default.jpg";
         Faculty = "";
         Course = null; Group = null;
         FirstName = ""; MiddleName = ""; LastName = "";
-        Birthday = "";
         Address = "";
-        Type = "";
     }
 
     public Student(String img,
                    String faculty, String course, String group,
                    String firstName, String middleName, String lastName,
-                   String birthday, String address, String type) {
+                   String address) {
         profileImageUrl = img;
         Faculty = faculty; Course = course; Group = group;
         FirstName = firstName; MiddleName = middleName; LastName = lastName;
-        Birthday = birthday; Address = address; Type = type;
+        Address = address;
     }
 
     public Student(Parcel in) {
-        String[] data = new String[10];
+        String[] data = new String[8];
         in.readStringArray(data);
         profileImageUrl = data[0];
         Faculty = data[1];
@@ -45,9 +42,7 @@ public class Student implements Parcelable {
         FirstName = data[4];
         MiddleName = data[5];
         LastName = data[6];
-        Birthday = data[7];
-        Address = data[8];
-        Type = data[9];
+        Address = data[7];
     }
 
     public String getFaculty() {
@@ -98,22 +93,6 @@ public class Student implements Parcelable {
         LastName = lastName;
     }
 
-    public String getBirthday() {
-        return Birthday;
-    }
-
-    public void setBirthday(String age) {
-        Birthday = age;
-    }
-
-    public String getType() {
-        return Type;
-    }
-
-    public void setType(String type) {
-        Type = type;
-    }
-
     public String getAddress() {
         return Address;
     }
@@ -129,7 +108,7 @@ public class Student implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeStringArray(new String[] { profileImageUrl, Faculty, Course, Group, FirstName, MiddleName, LastName, Birthday, Address, Type });
+        dest.writeStringArray(new String[] { profileImageUrl, Faculty, Course, Group, FirstName, MiddleName, LastName, Address });
     }
 
     public static final Parcelable.Creator<Student> CREATOR = new Parcelable.Creator<Student>() {
@@ -155,9 +134,7 @@ public class Student implements Parcelable {
                 + "FirstName: " + FirstName + "; "
                 + "MiddleName: " + MiddleName + "; "
                 + "LastName: " + LastName + "; "
-                + "Birthday: " + Birthday + "; "
-                + "Address: " + Address + "; "
-                + "Type: " + Type
+                + "Address: " + Address
                 + " }";
     }
 

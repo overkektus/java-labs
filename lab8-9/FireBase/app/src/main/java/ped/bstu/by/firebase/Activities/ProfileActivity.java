@@ -1,5 +1,6 @@
 package ped.bstu.by.firebase.Activities;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -26,6 +27,8 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -34,22 +37,25 @@ import java.io.IOException;
 
 import es.dmoral.toasty.Toasty;
 import ped.bstu.by.firebase.R;
+import ped.bstu.by.firebase.Student;
 
 public class ProfileActivity extends AppCompatActivity {
 
-    private static final String ADMIN = "egor.piskunou@gmail.com";
-    private static final int CHOOSE_IMAGE = 101;
+    private static final String TAG = "ProfileActivity";
+    private final String ADMINID = "cTjCFAkZIcgGn3glMFPriDCPQRi1";
 
-    TextView tvVerified;
-    ImageView imageView;
-    EditText etDisplayName;
-    ProgressBar progressBar;
+    private TextView tvVerified;
+    private ImageView studentImage;
+    private EditText etDisplayName;
+    private ProgressBar progressBar;
 
-    Uri uriProfileImage;
+    private FirebaseDatabase mFirebaseDatabase;
+    private DatabaseReference mDatabaseReference;
+    private FirebaseAuth mAuth;
+    private FirebaseAuth.AuthStateListener mAuthListener;
 
-    String profileImageUrl;
-
-    FirebaseAuth mAuth;
+    private Student student;
+    private String userId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +63,7 @@ public class ProfileActivity extends AppCompatActivity {
         setContentView(R.layout.activity_profile);
 
         mAuth = FirebaseAuth.getInstance();
+        mFirebaseDatabase = FirebaseDatabase.getInstance();
         initViews();
         loadUserInformation();
     }
@@ -70,7 +77,7 @@ public class ProfileActivity extends AppCompatActivity {
             startActivity(new Intent(this, MainActivity.class));
         }
 
-        if(mAuth.getCurrentUser().getEmail().equals(ADMIN)) {
+        if(mAuth.getCurrentUser().getUid().equals(ADMINID)) {
             finish();
             startActivity(new Intent(this, AdminActivity.class));
         }
@@ -79,22 +86,8 @@ public class ProfileActivity extends AppCompatActivity {
     private void initViews() {
         tvVerified = findViewById(R.id.tvVerified);
         etDisplayName = findViewById(R.id.etDisplayName);
-        imageView = findViewById(R.id.imageView);
+        studentImage = findViewById(R.id.imageView);
         progressBar = findViewById(R.id.progressBar);
-
-        imageView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showImageChooser();
-            }
-        });
-
-        findViewById(R.id.btnSave).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                saveUserInformation();
-            }
-        });
     }
 
     private void loadUserInformation() {
@@ -103,9 +96,10 @@ public class ProfileActivity extends AppCompatActivity {
         if(user != null) {
             if(user.getPhotoUrl() != null) {
                 String photoUrl = user.getPhotoUrl().toString();
+
                 Glide.with(this)
                         .load(user.getPhotoUrl().toString())
-                        .into(imageView);
+                        .into(studentImage);
             }
             if(user.getDisplayName() != null) {
                 String displayName = user.getDisplayName();
@@ -130,82 +124,24 @@ public class ProfileActivity extends AppCompatActivity {
                 });
             }
         }
-
+        //student = new Student(user.getPhotoUrl().toString(), null, null, null, user.getDisplayName(), null, null ,null);
     }
 
-    private void saveUserInformation() {
-        String diplayName = etDisplayName.getText().toString();
-
-        if(diplayName.isEmpty()) {
-            etDisplayName.setError("Name required");
-            etDisplayName.requestFocus();
-            return;
+    private void showToastMessage(Context context, String text, String type) {
+        switch (type) {
+            case "success":
+                Toasty.success(context, text, Toast.LENGTH_SHORT).show();
+                break;
+            case "warning":
+                Toasty.warning(context, text, Toast.LENGTH_SHORT).show();
+                break;
+            case "info":
+                Toasty.info(context, text, Toast.LENGTH_SHORT).show();
+                break;
+            case "error":
+                Toasty.error(context, text, Toast.LENGTH_SHORT).show();
+                break;
         }
-
-        FirebaseUser user = mAuth.getCurrentUser();
-
-        if(user != null && profileImageUrl != null) {
-            UserProfileChangeRequest profile = new UserProfileChangeRequest.Builder()
-                    .setDisplayName(diplayName)
-                    .setPhotoUri(Uri.parse(profileImageUrl))
-                    .build();
-            user.updateProfile(profile)
-                .addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        if(task.isSuccessful()) {
-                            Toasty.success(ProfileActivity.this, "Profile Updated", Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                });
-        }
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if(requestCode == CHOOSE_IMAGE && resultCode == RESULT_OK && data != null && data.getData() != null) {
-            uriProfileImage = data.getData();
-            try {
-                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), uriProfileImage);
-                imageView.setImageBitmap(bitmap);
-                uploadImageToFirebaseStorage();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
-    private void uploadImageToFirebaseStorage() {
-        StorageReference profileImageRef =
-                FirebaseStorage.getInstance().getReference("profilepics/" + System.currentTimeMillis() + ".jpg");
-
-        if(uriProfileImage != null) {
-            progressBar.setVisibility(View.VISIBLE);
-            profileImageRef.putFile(uriProfileImage)
-                    .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                        @Override
-                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                            progressBar.setVisibility(View.GONE);
-                            profileImageUrl = taskSnapshot.getDownloadUrl().toString();
-                        }
-                    })
-                    .addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            progressBar.setVisibility(View.GONE);
-                            Toasty.error(ProfileActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
-                        }
-                    });
-        }
-    }
-
-    private void showImageChooser() {
-        Intent intent = new Intent();
-        intent.setType("image/*");
-        intent.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(Intent.createChooser(intent, "Select profile message"), CHOOSE_IMAGE);
     }
 
     @Override
@@ -217,31 +153,61 @@ public class ProfileActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        Intent intent;
         switch (item.getItemId()) {
-            case R.id.signout:
-                mAuth.signOut();
-                Intent intent = new Intent(this, MainActivity.class);
+            case R.id.menu_editInformation:
+                intent = new Intent(this, EditProfileActivity.class);
                 startActivity(intent);
                 break;
+            case R.id.signout:
+                showExitDialog();
+                break;
             case R.id.about:
-                AlertDialog.Builder builder = new AlertDialog.Builder(ProfileActivity.this);
-                builder.setTitle("About")
-                        .setMessage("Лабораторная работа 8-9 \n" +
-                                "Выполнил: Пискунов Е.Д 7-2")
-                        .setIcon(R.drawable.ic_info_outline_white_48dp)
-                        .setCancelable(false)
-                        .setNegativeButton("close",
-                                new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog, int id) {
-                                        dialog.cancel();
-                                    }
-                                });
-                AlertDialog alert = builder.create();
-                alert.show();
+                showAboutDialog();
                 break;
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void showExitDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(ProfileActivity.this);
+        builder.setTitle("Exit")
+                .setMessage("Вы действительно хотите выйти?")
+                .setIcon(android.R.drawable.ic_dialog_info)
+                .setPositiveButton("Да", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        mAuth.signOut();
+                        Intent intent = new Intent(ProfileActivity.this, MainActivity.class);
+                        startActivity(intent);
+                    }
+                })
+                .setNegativeButton("Нет", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+        AlertDialog alert = builder.create();
+        alert.show();
+    }
+
+    private void showAboutDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(ProfileActivity.this);
+        builder.setTitle("About")
+                .setMessage("Лабораторная работа 8-9 \n" +
+                        "Выполнил: Пискунов Е.Д 7-2")
+                .setIcon(R.drawable.ic_info_outline_white_48dp)
+                .setCancelable(false)
+                .setNegativeButton("close",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                dialog.cancel();
+                            }
+                        });
+        AlertDialog alert = builder.create();
+        alert.show();
     }
 
 }

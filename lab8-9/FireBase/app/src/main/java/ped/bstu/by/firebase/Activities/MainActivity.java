@@ -1,9 +1,11 @@
 package ped.bstu.by.firebase.Activities;
 
+import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.EditText;
@@ -14,39 +16,71 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import es.dmoral.toasty.Toasty;
 import ped.bstu.by.firebase.R;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
+    private static final String TAG = "MainActivity: ";
+    private final String ADMINID = "cTjCFAkZIcgGn3glMFPriDCPQRi1";
 
-    private static final int RC_SIGN_IN = 234;
-    private static final String ADMIN = "egor.piskunou@gmail.com";
+    private FirebaseAuth mAuth;
+    private FirebaseAuth.AuthStateListener mAuthListener;
 
-    FirebaseAuth mAuth;
-
-    EditText etEmail, etPassword;
-    ProgressBar progressBar;
+    private EditText etEmail, etPassword;
+    private ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        initViews();
+
+        mAuth = FirebaseAuth.getInstance();
+        mAuthListener = new FirebaseAuth.AuthStateListener() {
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                FirebaseUser user = firebaseAuth.getCurrentUser();
+                if (user != null) {
+                    // User is signed in
+                    if (user.getUid().equals(ADMINID)) {
+
+                        Intent intent = new Intent(MainActivity.this, AdminActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        startActivity(intent);
+                        Log.d(TAG, "onAuthStateChanged:signed_in " + user.getUid());
+                        finish();
+                    } else {
+                        Intent intent = new Intent(MainActivity.this, ProfileActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        startActivity(intent);
+                        showToastMessage(MainActivity.this, user.getEmail(), "info");
+                        Log.d(TAG, "onAuthStateChanged:signed_in " + user.getUid());
+                        finish();
+                    }
+                } else {
+                    // User is signed out
+                    Log.d(TAG, "onAuthStateChanged:out_in ");
+                }
+            }
+        };
+    }
+
+    private void initViews() {
         findViewById(R.id.textViewSignUp).setOnClickListener(this);
         findViewById(R.id.buttonLogin).setOnClickListener(this);
         etEmail = findViewById(R.id.editTextEmail);
         etPassword = findViewById(R.id.editTextPassword);
         progressBar = findViewById(R.id.progressBar);
-
-        mAuth = FirebaseAuth.getInstance();
     }
 
     @Override
     public void onStart() {
         super.onStart();
-
+        mAuth.addAuthStateListener(mAuthListener);
         if(mAuth.getCurrentUser() != null) {
             finish();
             startActivity(new Intent(this, ProfileActivity.class));
@@ -54,7 +88,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void userLogin() {
-        Boolean isAdmin = false;
         String email = etEmail.getText().toString().trim();
         String password = etPassword.getText().toString().trim();
 
@@ -82,31 +115,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             return;
         }
 
-        if(email.equals(ADMIN)) {
-            isAdmin = true;
-        }
-
         progressBar.setVisibility(View.VISIBLE);
 
-        final Boolean finalIsAdmin = isAdmin;
         mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 progressBar.setVisibility(View.GONE);
-                if(task.isSuccessful()) {
-                    finish();
-                    Intent intent;
-                    if(finalIsAdmin) {
-                        intent = new Intent(MainActivity.this, AdminActivity.class);
-                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                        startActivity(intent);
-                    } else {
-                        intent = new Intent(MainActivity.this, ProfileActivity.class);
-                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                        startActivity(intent);
-                    }
-                } else {
-                    Toasty.error(getApplicationContext(), task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                if(!task.isSuccessful()) {
+                    showToastMessage(getApplicationContext(), task.getException().getMessage(), "error");
                 }
             }
         });
@@ -123,6 +139,31 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.buttonLogin:
                 userLogin();
                 break;
+        }
+    }
+
+    private void showToastMessage(Context context, String text, String type) {
+        switch (type) {
+            case "success":
+                Toasty.success(context, text, Toast.LENGTH_SHORT).show();
+                break;
+            case "warning":
+                Toasty.warning(context, text, Toast.LENGTH_SHORT).show();
+                break;
+            case "info":
+                Toasty.info(context, text, Toast.LENGTH_SHORT).show();
+                break;
+            case "error":
+                Toasty.error(context, text, Toast.LENGTH_SHORT).show();
+                break;
+        }
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        if (mAuthListener != null) {
+            mAuth.removeAuthStateListener(mAuthListener);
         }
     }
 
